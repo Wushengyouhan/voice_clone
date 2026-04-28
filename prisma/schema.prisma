@@ -1,0 +1,56 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client"
+  output   = "../lib/generated/prisma"
+}
+
+datasource db {
+  provider = "mysql"
+}
+
+enum VoiceStatus {
+  TRAINING
+  READY
+  FAILED
+}
+
+enum SynthesisStatus {
+  PENDING
+  SUCCESS
+  FAILED
+}
+
+model Voice {
+  id           String      @id @default(cuid())
+  name         String
+  description  String?
+  sampleUrl    String
+  ossObjectKey String
+  providerId   String?     @unique
+  status       VoiceStatus @default(TRAINING)
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+
+  syntheses Synthesis[]
+}
+
+model Synthesis {
+  id            String          @id @default(cuid())
+  voiceId       String
+  text          String          @db.Text
+  outputUrl     String?
+  ossObjectKey  String?
+  providerTask  String?         @unique
+  status        SynthesisStatus @default(PENDING)
+  durationMs    Int?
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+
+  voice Voice @relation(fields: [voiceId], references: [id], onDelete: Cascade)
+
+  @@index([voiceId, createdAt])
+}
