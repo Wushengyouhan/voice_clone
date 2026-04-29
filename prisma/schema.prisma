@@ -12,43 +12,24 @@ datasource db {
   provider = "mysql"
 }
 
-enum VoiceStatus {
-  TRAINING
-  READY
-  FAILED
-}
-
-enum SynthesisStatus {
-  PENDING
-  SUCCESS
-  FAILED
-}
-
 model Voice {
-  id           String      @id @default(cuid())
-  name         String
-  description  String?
-  sampleUrl    String
-  ossObjectKey String
-  providerId   String?     @unique
-  status       VoiceStatus @default(TRAINING)
-  createdAt    DateTime    @default(now())
-  updatedAt    DateTime    @updatedAt
+  id        String   @id @default(cuid())
+  name      String
+  sampleUrl String
+  voiceId   String   @unique
+  createdAt DateTime @default(now())
 
   syntheses Synthesis[]
 }
 
 model Synthesis {
-  id            String          @id @default(cuid())
+  id            String   @id @default(cuid())
   voiceId       String
-  text          String          @db.Text
+  text          String   @db.Text
   outputUrl     String?
-  ossObjectKey  String?
-  providerTask  String?         @unique
-  status        SynthesisStatus @default(PENDING)
   durationMs    Int?
-  createdAt     DateTime        @default(now())
-  updatedAt     DateTime        @updatedAt
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
 
   voice Voice @relation(fields: [voiceId], references: [id], onDelete: Cascade)
 
