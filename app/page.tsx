@@ -1,3 +1,4 @@
+import { VoiceCreateForm } from "@/components/voice-create-form";
 import { Button } from "@/components/ui/button";
 
 export default function Home() {
@@ -15,12 +16,15 @@ export default function Home() {
         </header>
 
         <section className="grid gap-4 md:grid-cols-2">
-          <article className="rounded-xl border bg-white p-6 shadow-sm">
+          <article className="rounded-xl border bg-white p-6 shadow-sm md:col-span-2">
             <h2 className="text-xl font-semibold text-slate-900">1. 创建音色</h2>
             <p className="mt-2 text-sm leading-6 text-slate-600">
-              上传音频样本，服务端会保存到 OSS 并调用阿里云接口训练音色。
+              上传音频样本，服务端会保存到 OSS 并调用百炼 CosyVoice
+              创建音色，并写入数据库。
             </p>
-            <Button className="mt-5">开始上传样本</Button>
+            <div className="mt-6">
+              <VoiceCreateForm />
+            </div>
           </article>
 
           <article className="rounded-xl border bg-white p-6 shadow-sm">
@@ -35,11 +39,10 @@ export default function Home() {
         </section>
 
         <section className="rounded-xl border border-dashed bg-white p-6">
-          <h3 className="font-medium text-slate-900">下一步开发建议</h3>
+          <h3 className="font-medium text-slate-900">下一步</h3>
           <ul className="mt-3 list-disc space-y-1 pl-5 text-sm text-slate-600">
-            <li>补齐上传 API、OSS 签名上传和音频格式校验。</li>
-            <li>封装阿里云音色创建与合成 SDK 适配层。</li>
-            <li>接入 Prisma + MySQL 持久化音色与任务状态。</li>
+            <li>文本转语音：选择已创建音色，调用合成接口并支持试听/下载。</li>
+            <li>按需把 OSS 样本改为预签名直传，减轻服务端带宽。</li>
           </ul>
         </section>
       </main>
