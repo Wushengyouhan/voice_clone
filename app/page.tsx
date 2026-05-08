@@ -1,5 +1,5 @@
 import { VoiceCreateForm } from "@/components/voice-create-form";
-import { Button } from "@/components/ui/button";
+import { VoiceSynthesizeForm } from "@/components/voice-synthesize-form";
 
 export default function Home() {
   return (
@@ -27,22 +27,22 @@ export default function Home() {
             </div>
           </article>
 
-          <article className="rounded-xl border bg-white p-6 shadow-sm">
+          <article className="rounded-xl border bg-white p-6 shadow-sm md:col-span-2">
             <h2 className="text-xl font-semibold text-slate-900">2. 文本合成</h2>
             <p className="mt-2 text-sm leading-6 text-slate-600">
-              选择已就绪音色，输入文本后进行语音合成，结果支持试听和下载。
+              选择已创建音色，输入文本；服务端调用百炼合成后转存 OSS，并写入数据库，支持试听与下载。
             </p>
-            <Button className="mt-5" variant="outline">
-              开始文本转语音
-            </Button>
+            <div className="mt-6">
+              <VoiceSynthesizeForm />
+            </div>
           </article>
         </section>
 
         <section className="rounded-xl border border-dashed bg-white p-6">
-          <h3 className="font-medium text-slate-900">下一步</h3>
+          <h3 className="font-medium text-slate-900">后续可优化</h3>
           <ul className="mt-3 list-disc space-y-1 pl-5 text-sm text-slate-600">
-            <li>文本转语音：选择已创建音色，调用合成接口并支持试听/下载。</li>
-            <li>按需把 OSS 样本改为预签名直传，减轻服务端带宽。</li>
+            <li>OSS 样本改为预签名直传，减轻服务端带宽。</li>
+            <li>合成排队、字数计费展示、音色状态（OK/训练中）校验。</li>
           </ul>
         </section>
       </main>

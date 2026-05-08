@@ -6,5 +6,6 @@ declare module "ali-oss" {
   export default class OSS {
     constructor(options: Record<string, unknown>);
     put(name: string, file: Buffer, options?: PutOptions): Promise<unknown>;
+    delete(name: string): Promise<unknown>;
   }
 }
