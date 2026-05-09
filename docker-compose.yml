@@ -1,0 +1,28 @@
+# 服务器上与本仓库 .env 同目录放置后执行：docker compose up -d
+# 首次拉私有镜像需先登录：docker login crpi-wzkmn99umn8syi28.cn-shanghai.personal.cr.aliyuncs.com
+
+services:
+  voice-clone:
+    image: crpi-wzkmn99umn8syi28.cn-shanghai.personal.cr.aliyuncs.com/wushengyouhan/voice_clone:latest
+    container_name: voice-clone
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env
+    # 若 MySQL 跑在本机宿主机（127.0.0.1），容器内要用宿主机 IP；可解开下一行（Compose v2.1+）
+    # extra_hosts:
+    #   - "host.docker.internal:host-gateway"
+    # 此时 DATABASE_URL 里主机可写 host.docker.internal
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "node",
+          "-e",
+          "fetch('http://127.0.0.1:3000').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))",
+        ]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 45s
