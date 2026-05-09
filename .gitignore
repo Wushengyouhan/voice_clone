@@ -33,6 +33,9 @@ yarn-error.log*
 # env files (can opt-in for committing if needed)
 .env*
 
+# 服务器真实 compose（从 docker-compose.example.yml 复制后填写密钥，勿提交）
+/docker-compose.yml
+
 # vercel
 .vercel
 
